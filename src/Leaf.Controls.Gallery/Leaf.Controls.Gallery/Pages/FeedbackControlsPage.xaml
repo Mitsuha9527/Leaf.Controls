@@ -1,0 +1,31 @@
+﻿<Page x:Class="Leaf.Controls.Gallery.Pages.FeedbackControlsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:leaf="http://schemas.Leaf.Controls.com"
+      Background="{DynamicResource PrimaryRegionBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="{StaticResource GalleryPageMargin}">
+            <TextBlock Style="{StaticResource GalleryHeaderTextStyle}" Text="数据与反馈" />
+            <TextBlock Style="{StaticResource GalleryDescriptionTextStyle}" Text="DataGrid / ProcessBar / LeafToast / LeafMessageBox / LeafNotificationBox" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                <Button Content="Toast 成功" Margin="0,0,12,0" Click="OnToastSuccessClick" />
+                <Button Content="Toast 警告" Margin="0,0,12,0" Click="OnToastWarningClick" />
+                <Button Content="Toast 询问" Margin="0,0,12,0" Click="OnToastAskClick" />
+                <Button Content="通知框" Margin="0,0,12,0" Click="OnNotificationClick" />
+                <Button Content="确认框" Margin="0,0,12,0" Click="OnConfirmClick" />
+                <Button Content="输入框" Click="OnInputPromptClick" />
+            </StackPanel>
+
+            <ProgressBar Height="22" Minimum="0" Maximum="100" Value="68" Margin="0,0,0,12" />
+
+            <DataGrid Height="260" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding DemoRows}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="120" />
+                    <DataGridTextColumn Header="值" Binding="{Binding Value}" Width="120" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

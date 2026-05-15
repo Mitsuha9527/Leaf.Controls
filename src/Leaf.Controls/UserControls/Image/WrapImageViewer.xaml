@@ -209,13 +209,47 @@
                                 </Ellipse>
 
                                 <TextBlock
-                                    x:Name="CodeText"
+                                    x:Name="CodeTextTopLeft"
                                     Margin="-20"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top"
                                     FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}, Path=CodeTextFontSize}"
                                     Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}, Path=CodeTextBrush}"
-                                    Text="{Binding Code, Mode=TwoWay}" />
+                                    Text="{Binding Code, Mode=TwoWay}"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}, Path=IsCodeCenteredInRoi, Converter={StaticResource BooleanToVisibilityReConverter}}" />
+
+                                <Border
+                                    x:Name="CodeTextCenterHost"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    IsHitTestVisible="False"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}, Path=IsCodeCenteredInRoi, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Border.Width>
+                                        <MultiBinding Converter="{StaticResource MathMinConverter}">
+                                            <Binding Path="Rect.Width" />
+                                            <Binding Path="Rect.Height" />
+                                            <Binding RelativeSource="{RelativeSource AncestorType=local:WrapImageViewer}" Path="CodeCenterFillRatio" />
+                                        </MultiBinding>
+                                    </Border.Width>
+                                    <Border.Height>
+                                        <MultiBinding Converter="{StaticResource MathMinConverter}">
+                                            <Binding Path="Rect.Width" />
+                                            <Binding Path="Rect.Height" />
+                                            <Binding RelativeSource="{RelativeSource AncestorType=local:WrapImageViewer}" Path="CodeCenterFillRatio" />
+                                        </MultiBinding>
+                                    </Border.Height>
+                                    <Viewbox Stretch="Uniform">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="100"
+                                            Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}, Path=CodeTextBrush}"
+                                            Text="{Binding Code, Mode=TwoWay}"
+                                            TextAlignment="Center"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </Viewbox>
+                                </Border>
                                 <!--  ROI main rectangle  -->
                                 <Rectangle Visibility="{Binding ShowIndicator, Converter={StaticResource BooleanToVisibilityReConverter}}">
                                     <Rectangle.Style>

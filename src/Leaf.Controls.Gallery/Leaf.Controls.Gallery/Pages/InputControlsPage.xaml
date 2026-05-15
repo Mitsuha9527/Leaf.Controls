@@ -1,0 +1,64 @@
+﻿<Page x:Class="Leaf.Controls.Gallery.Pages.InputControlsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:leaf="http://schemas.Leaf.Controls.com"
+      xmlns:controls="clr-namespace:Leaf.Controls.CustomControls;assembly=Leaf.Controls"
+      Background="{DynamicResource PrimaryRegionBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="{StaticResource GalleryPageMargin}" Orientation="Vertical">
+            <TextBlock Style="{StaticResource GalleryHeaderTextStyle}" Text="输入控件" />
+            <TextBlock Style="{StaticResource GalleryDescriptionTextStyle}" Text="TextBox / PasswordBox / NumberBox / DateTimePicker / ComboBox / CheckBox / ToggleButton / RadioButtonGroup" />
+
+            <WrapPanel ItemWidth="280" ItemHeight="120">
+                <Border Margin="0,0,16,16" Padding="16" Width="260" Background="{DynamicResource RegionBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" Text="TextBox" Margin="0,0,0,8" />
+                        <TextBox Text="Leaf.Controls" />
+                    </StackPanel>
+                </Border>
+
+                <Border Margin="0,0,16,16" Padding="16" Width="260" Background="{DynamicResource RegionBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" Text="PasswordBox" Margin="0,0,0,8" />
+                        <PasswordBox Password="123456" />
+                    </StackPanel>
+                </Border>
+
+                <Border Margin="0,0,16,16" Padding="16" Width="260" Background="{DynamicResource RegionBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" Text="NumberBox" Margin="0,0,0,8" />
+                        <leaf:NumberBox Minimum="0" Maximum="100" Increment="0.5" Value="42" />
+                    </StackPanel>
+                </Border>
+
+                <Border Margin="0,0,16,16" Padding="16" Width="260" Background="{DynamicResource RegionBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" Text="DateTimePicker" Margin="0,0,0,8" />
+                        <leaf:DateTimePicker SelectedDate="2026-05-15" />
+                    </StackPanel>
+                </Border>
+            </WrapPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                <ComboBox Width="180" SelectedIndex="0" Margin="0,0,12,0">
+                    <ComboBoxItem Content="选项 A" />
+                    <ComboBoxItem Content="选项 B" />
+                    <ComboBoxItem Content="选项 C" />
+                </ComboBox>
+                <CheckBox Content="启用功能" IsChecked="True" Margin="0,0,12,0" VerticalAlignment="Center" />
+                <ToggleButton Content="切换状态" IsChecked="True" />
+            </StackPanel>
+
+            <TextBox Width="320"
+                     Margin="0,0,0,8"
+                     controls:TextBoxAttatch.UpdateSourceOnKey="Enter"
+                     Text="TextBoxAttatch：按 Enter 触发绑定更新" />
+
+            <leaf:RadioButtonGroup Margin="0,8,0,0">
+                <RadioButton Content="模式一" IsChecked="True" />
+                <RadioButton Content="模式二" />
+                <RadioButton Content="模式三" />
+            </leaf:RadioButtonGroup>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

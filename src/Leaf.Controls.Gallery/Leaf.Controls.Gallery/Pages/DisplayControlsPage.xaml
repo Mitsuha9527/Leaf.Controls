@@ -1,0 +1,30 @@
+﻿<Page x:Class="Leaf.Controls.Gallery.Pages.DisplayControlsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:leaf="http://schemas.Leaf.Controls.com"
+      Background="{DynamicResource PrimaryRegionBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="{StaticResource GalleryPageMargin}">
+            <TextBlock Style="{StaticResource GalleryHeaderTextStyle}" Text="按钮与显示" />
+            <TextBlock Style="{StaticResource GalleryDescriptionTextStyle}" Text="Button / Label / TextBlock / ToggleLabel / GroupBox / ToolTip" />
+
+            <WrapPanel>
+                <Button Content="默认按钮" Margin="0,0,12,12" />
+                <Button Content="主按钮" Margin="0,0,12,12" />
+                <Button ToolTip="这是一个 ToolTip" Content="悬停查看提示" Margin="0,0,12,12" />
+            </WrapPanel>
+
+            <Border Style="{StaticResource GalleryCardStyle}">
+                <GroupBox Header="信息展示" Margin="0,0,0,0">
+                    <StackPanel Margin="12">
+                        <Label Content="这是 Label" />
+                        <TextBlock Text="这是 TextBlock" Margin="0,6,0,0" />
+                        <leaf:ToggleLabel Margin="0,8,0,0" State="True" TrueText="正常" FalseText="异常" NullText="未知" />
+                        <leaf:ToggleLabel Margin="0,8,0,0" State="False" TrueText="已连接" FalseText="断开" NullText="未检测" />
+                        <leaf:ToggleLabel Margin="0,8,0,0" State="{x:Null}" TrueText="已连接" FalseText="断开" NullText="未检测" />
+                    </StackPanel>
+                </GroupBox>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

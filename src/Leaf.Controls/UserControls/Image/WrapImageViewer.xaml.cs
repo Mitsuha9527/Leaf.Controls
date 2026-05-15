@@ -157,6 +157,22 @@ namespace Leaf.Controls.UserControls
                 new PropertyMetadata(12.0)
             );
 
+        public static readonly DependencyProperty IsCodeCenteredInRoiProperty =
+            DependencyProperty.Register(
+                nameof(IsCodeCenteredInRoi),
+                typeof(bool),
+                typeof(WrapImageViewer),
+                new PropertyMetadata(false)
+            );
+
+        public static readonly DependencyProperty CodeCenterFillRatioProperty =
+            DependencyProperty.Register(
+                nameof(CodeCenterFillRatio),
+                typeof(double),
+                typeof(WrapImageViewer),
+                new PropertyMetadata(0.92)
+            );
+
         public static readonly DependencyProperty ImageScaleProperty = DependencyProperty.Register(
             nameof(ImageScale),
             typeof(double),
@@ -268,6 +284,18 @@ namespace Leaf.Controls.UserControls
         {
             get => (double)GetValue(CodeTextFontSizeProperty);
             set => SetValue(CodeTextFontSizeProperty, value);
+        }
+
+        public bool IsCodeCenteredInRoi
+        {
+            get => (bool)GetValue(IsCodeCenteredInRoiProperty);
+            set => SetValue(IsCodeCenteredInRoiProperty, value);
+        }
+
+        public double CodeCenterFillRatio
+        {
+            get => (double)GetValue(CodeCenterFillRatioProperty);
+            set => SetValue(CodeCenterFillRatioProperty, value);
         }
 
         public double ImageScale

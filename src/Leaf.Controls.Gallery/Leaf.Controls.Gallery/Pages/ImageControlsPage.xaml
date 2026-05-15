@@ -1,0 +1,78 @@
+﻿<Page x:Class="Leaf.Controls.Gallery.Pages.ImageControlsPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:leaf="http://schemas.Leaf.Controls.com"
+	  Background="{DynamicResource PrimaryRegionBrush}">
+	<Grid Margin="{StaticResource GalleryPageMargin}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<StackPanel>
+			<TextBlock Style="{StaticResource GalleryHeaderTextStyle}" Text="图像控件" />
+			<TextBlock Style="{StaticResource GalleryDescriptionTextStyle}" Text="WrapImageViewer（含 ROI 示例）" />
+		</StackPanel>
+
+		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
+			<Button Content="重置 ROI" Margin="0,0,12,0" Click="OnResetRoiClick" />
+			<Button Content="切换到编辑模式" Margin="0,0,12,0" Click="OnSwitchEditClick" />
+			<Button Content="切换到绘制模式" Margin="0,0,12,0" Click="OnSwitchDrawClick" />
+			<Button Content="切换到平移模式" Click="OnSwitchPanClick" />
+		</StackPanel>
+
+		<Border Grid.Row="2"
+				Padding="8"
+				Background="{DynamicResource RegionBrush}"
+				BorderBrush="{DynamicResource BorderBrush}"
+				BorderThickness="1"
+				CornerRadius="8"
+				MinHeight="520">
+			<leaf:WrapImageViewer x:Name="WrapImageViewerDemo"
+								  ImageSource="{Binding DemoImage}"
+								  ROIs="{Binding DemoRois}"
+								  ShowToolbar="True"
+								  Mode="DrawROI"
+								  IsCodeCenteredInRoi="{Binding IsCodeCenteredInRoi, Mode=TwoWay}"
+								  CodeCenterFillRatio="{Binding CodeCenterFillRatioValue, Mode=TwoWay}"
+								  CodeTextBrush="{Binding CodeTextBrushValue, Mode=OneWay}" />
+		</Border>
+
+		<Border Grid.Row="3"
+				Style="{StaticResource GalleryCardStyle}"
+				Margin="0,12,0,0">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<StackPanel Grid.Column="0" Margin="0,0,12,0">
+					<TextBlock FontWeight="SemiBold" Text="CodeText 颜色" />
+					<ComboBox Margin="0,8,0,0"
+							  ItemsSource="{Binding CodeTextBrushOptions}"
+							  DisplayMemberPath="Name"
+							  SelectedItem="{Binding SelectedCodeTextBrushOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				</StackPanel>
+
+				<StackPanel Grid.Column="1" Margin="6,0,6,0">
+					<TextBlock FontWeight="SemiBold" Text="CodeText 居中填充" />
+					<CheckBox Margin="0,8,0,0"
+							  Content="在 ROI 中心显示并按最小外接圆占满"
+							  IsChecked="{Binding IsCodeCenteredInRoi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					<TextBlock Margin="0,12,0,0" FontWeight="SemiBold" Text="占满比例" />
+					<Slider Margin="0,8,0,0"
+							Minimum="0.2"
+							Maximum="1.2"
+							TickFrequency="0.01"
+							IsSnapToTickEnabled="True"
+							Value="{Binding CodeCenterFillRatioValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					<TextBlock Margin="0,6,0,0"
+							   Text="{Binding CodeCenterFillRatioValue, StringFormat=当前比例: {0:F2}}" />
+				</StackPanel>
+			</Grid>
+		</Border>
+	</Grid>
+</Page>

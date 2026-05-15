@@ -1,0 +1,23 @@
+﻿<Page x:Class="Leaf.Controls.Gallery.Pages.OverviewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{DynamicResource PrimaryRegionBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="{StaticResource GalleryPageMargin}">
+            <TextBlock FontSize="28"
+                       FontWeight="Bold"
+                       Text="Leaf.Controls Gallery" />
+            <TextBlock Style="{StaticResource GalleryDescriptionTextStyle}"
+                       Text="这是 Leaf.Controls 的演示入口页，导航覆盖全部控件与附加属性。" />
+
+            <Border Style="{StaticResource GalleryCardStyle}">
+                <StackPanel>
+                    <TextBlock FontWeight="SemiBold" Text="使用说明" />
+                    <TextBlock Margin="0,8,0,0" Text="1. 左侧切换分组页面。" />
+                    <TextBlock Margin="0,4,0,0" Text="2. 每个页面包含基础示例、配置示例与交互反馈。" />
+                    <TextBlock Margin="0,4,0,0" Text="3. 图像页面可直接验证 WrapImageViewer 的 ROI 交互。" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

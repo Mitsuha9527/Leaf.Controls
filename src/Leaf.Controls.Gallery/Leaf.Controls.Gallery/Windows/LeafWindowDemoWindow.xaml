@@ -1,0 +1,37 @@
+﻿<leaf:LeafWindow x:Class="Leaf.Controls.Gallery.Windows.LeafWindowDemoWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:leaf="http://schemas.Leaf.Controls.com"
+                 Title="LeafWindow Demo"
+                 Width="720"
+                 Height="420"
+                 WindowStartupLocation="CenterOwner">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock FontSize="20"
+                   FontWeight="SemiBold"
+                   Text="LeafWindow 预览窗口" />
+
+        <Border Grid.Row="1"
+                Margin="0,12,0,12"
+                Padding="16"
+                Background="{DynamicResource RegionBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+            <StackPanel>
+                <TextBlock Text="该窗口继承自 leaf:LeafWindow，用于验证窗口模板、标题栏按钮与整体样式。" />
+                <TextBlock Margin="0,8,0,0" Text="你可以拖动、最大化、最小化并关闭此窗口。" />
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="100" Content="关闭" Click="OnCloseClick" />
+        </StackPanel>
+    </Grid>
+</leaf:LeafWindow>

@@ -16,4 +16,5 @@
     <cvt:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
     <cvt:BoolToOKNGConverter x:Key="BoolToOKNGConverter" />
     <cvt:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+    <cvt:MathMinConverter x:Key="MathMinConverter" />
 </ResourceDictionary>

@@ -13,7 +13,7 @@
 	<Company>Mitsuha9527</Company>
 	<Product>$(AssemblyName)</Product>
 	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	<Version>1.0.3</Version>
+	<Version>1.0.5</Version>
 	<Description>Leaf.UI</Description>
 	<PackageOutputPath>nupkg</PackageOutputPath>
 	<PackageId>$(AssemblyName)</PackageId>
