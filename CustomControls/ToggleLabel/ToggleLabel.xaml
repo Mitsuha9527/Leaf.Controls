@@ -1,0 +1,54 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:leafui="clr-namespace:Leaf.Controls.CustomControls">
+
+    <Style x:Key="ToggleLabelBaseStyle" TargetType="leafui:ToggleLabel">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="IndicatorSize" Value="12" />
+        <Setter Property="Spacing" Value="6" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="leafui:ToggleLabel">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Ellipse
+                            Grid.Column="0"
+                            Width="{TemplateBinding IndicatorSize}"
+                            Height="{TemplateBinding IndicatorSize}"
+                            VerticalAlignment="Center"
+                            Fill="{TemplateBinding IndicatorBrush}"
+                            Stroke="{TemplateBinding IndicatorBrush}"
+                            StrokeThickness="0.5">
+                            <Ellipse.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="4"
+                                    Direction="0"
+                                    Opacity="0.6"
+                                    ShadowDepth="0" />
+                            </Ellipse.Effect>
+                        </Ellipse>
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="6,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="{TemplateBinding FontSize}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Text="{TemplateBinding CurrentText}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource ToggleLabelBaseStyle}" TargetType="leafui:ToggleLabel" />
+
+</ResourceDictionary>

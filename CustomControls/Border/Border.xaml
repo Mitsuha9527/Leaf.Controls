@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:theme="clr-namespace:Leaf.Controls.Themes">
+
+    <Style x:Key="BorderRegion" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource RegionBrush}" />
+        <Setter Property="CornerRadius" Value="{x:Static theme:DefaultSettings.DefaultCornerRadius}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+        <Setter Property="Padding" Value="{x:Static theme:DefaultSettings.DefaultControlPadding}" />
+        <Setter Property="Margin" Value="{x:Static theme:DefaultSettings.DefaultMargin}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+    <Style
+        x:Key="SecondaryBorderRegion"
+        BasedOn="{StaticResource BorderRegion}"
+        TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}" />
+    </Style>
+
+</ResourceDictionary>

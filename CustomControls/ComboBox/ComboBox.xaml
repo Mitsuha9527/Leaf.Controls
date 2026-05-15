@@ -1,0 +1,466 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:leafui="clr-namespace:Leaf.Controls.CustomControls"
+    xmlns:theme="clr-namespace:Leaf.Controls.Themes"
+    xmlns:utils="clr-namespace:Leaf.Controls.Utilities">
+
+    <ResourceDictionary.MergedDictionaries>
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/Base/InputElement.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/Base/TitleElement.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/Resources/GeometryItems/GeometryItems.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="ComboBoxItemBaseStyle" TargetType="ComboBoxItem">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="{x:Static theme:DefaultSettings.DefaultControlPadding}" />
+        <Setter Property="Margin" Value="0,3" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border
+                        x:Name="PART_MainBorder"
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{Binding Path=(leafui:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Line
+                                x:Name="PART_SelectedLine"
+                                Grid.Column="0"
+                                Margin="1,0,3,0"
+                                VerticalAlignment="Center"
+                                Stroke="Transparent"
+                                StrokeThickness="2"
+                                X1="0"
+                                X2="0"
+                                Y1="0"
+                                Y2="12" />
+                            <ContentPresenter
+                                Grid.Column="1"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_MainBorder" Property="Background" Value="{DynamicResource SecondaryBorderBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_SelectedLine" Property="Stroke" Value="{DynamicResource DarkPrimaryBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DefaultComboBoxToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+        <!--  Focus by parent element  -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="ContentBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter
+                            x:Name="PART_ContentHost"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <ControlTemplate x:Key="ComboBoxTemplate" TargetType="ComboBox">
+        <Border
+            x:Name="PART_MainBorder"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{Binding Path=(leafui:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Margin="{TemplateBinding Padding}">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding SelectionBoxItem}"
+                            ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            IsHitTestVisible="False"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="5,3">
+                        <Path
+                            Name="PART_ChevronIcon"
+                            Width="16"
+                            Height="16"
+                            VerticalAlignment="Center"
+                            Data="{StaticResource DownSkeletonGeometry}"
+                            Fill="{TemplateBinding BorderBrush}"
+                            Stretch="Uniform" />
+                    </Grid>
+                    <Grid
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="0">
+                        <ToggleButton
+                            Name="PART_ToggleButton"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            ClickMode="Press"
+                            Focusable="False"
+                            Foreground="{TemplateBinding Foreground}"
+                            IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            Style="{StaticResource DefaultComboBoxToggleButtonStyle}" />
+                    </Grid>
+                    <TextBox
+                        x:Name="PART_EditableTextBox"
+                        Grid.Column="0"
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="0"
+                        FocusVisualStyle="{x:Null}"
+                        FontSize="{TemplateBinding FontSize}"
+                        Foreground="{TemplateBinding Foreground}"
+                        IsReadOnly="{TemplateBinding IsReadOnly}"
+                        ScrollViewer.PanningMode="VerticalFirst"
+                        Stylus.IsFlicksEnabled="False"
+                        Visibility="Collapsed" />
+                </Grid>
+                <Popup
+                    x:Name="PART_Popup"
+                    MinWidth="{TemplateBinding ActualWidth}"
+                    Margin="1"
+                    AllowsTransparency="true"
+                    IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                    Placement="{TemplateBinding Popup.Placement}"
+                    PopupAnimation="{TemplateBinding Popup.PopupAnimation}">
+                    <Decorator Margin="8,0">
+                        <Border
+                            x:Name="PART_DropDownBorder"
+                            MinWidth="{Binding ActualWidth, ElementName=PART_MainBorder}"
+                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                            Margin="0"
+                            Padding="0,3"
+                            Background="{DynamicResource ThirdlyRegionBrush}"
+                            BorderBrush="{DynamicResource DarkPrimaryBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{Binding Path=(leafui:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                            SnapsToDevicePixels="True">
+                            <Border.RenderTransform>
+                                <TranslateTransform />
+                            </Border.RenderTransform>
+                            <ScrollViewer Margin="2">
+                                <ItemsPresenter
+                                    x:Name="PART_ItemsPresenter"
+                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </ScrollViewer>
+                        </Border>
+                    </Decorator>
+                </Popup>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsDropDownOpen" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetName="PART_DropDownBorder"
+                                Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                From="-90"
+                                To="0"
+                                Duration="00:00:00.167">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Setter TargetName="PART_ChevronIcon" Property="Data" Value="{DynamicResource UpSkeletonGeometry}" />
+            </Trigger>
+
+            <Trigger Property="HasItems" Value="false">
+                <Setter TargetName="PART_DropDownBorder" Property="Height" Value="35" />
+            </Trigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsGrouping" Value="true" />
+                    <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+                </MultiTrigger.Conditions>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="true" />
+                    <Condition SourceName="PART_Popup" Property="IsOpen" Value="false" />
+                </MultiTrigger.Conditions>
+                <Setter Property="BorderBrush" Value="{DynamicResource RegionBrush}" />
+            </MultiTrigger>
+            <Trigger Property="IsEditable" Value="True">
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Hidden" />
+            </Trigger>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value="0.4" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+    <Style
+        x:Key="ComboBoxBaseStyle"
+        BasedOn="{StaticResource InputElementBaseStyle}"
+        TargetType="ComboBox">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemBaseStyle}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="ScrollViewer.PanningMode" Value="Both" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        <Setter Property="IsEditable" Value="False" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Popup.PopupAnimation" Value="None" />
+        <Setter Property="leafui:BorderElement.CornerRadius" Value="{x:Static theme:DefaultSettings.DefaultCornerRadius}" />
+        <Setter Property="Popup.Placement" Value="Bottom" />
+        <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}" />
+    </Style>
+
+    <Style
+        x:Key="ComboBoxExtendedStyle"
+        BasedOn="{StaticResource ComboBoxBaseStyle}"
+        TargetType="ComboBox">
+        <Setter Property="leafui:TitleElement.TitlePlacement" Value="Left" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{Binding Path=(leafui:TitleElement.TitleWidth), RelativeSource={RelativeSource TemplatedParent}}" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Name="PART_TopTitleElement"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            Style="{StaticResource TitleElementTextBlockStyle}"
+                            Visibility="Collapsed" />
+                        <TextBlock
+                            x:Name="PART_LeftTitleElement"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Style="{StaticResource TitleElementTextBlockStyle}"
+                            Visibility="Collapsed" />
+                        <Border
+                            x:Name="PART_MainBorder"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=(leafui:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                            <Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0" Margin="{TemplateBinding Padding}">
+                                        <ContentPresenter
+                                            Name="PART_ContentPresenter"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Content="{TemplateBinding SelectionBoxItem}"
+                                            ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                            IsHitTestVisible="False"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            TextElement.Foreground="{TemplateBinding Foreground}" />
+                                    </Grid>
+                                    <Grid Grid.Column="1" Margin="5,3">
+                                        <Path
+                                            Name="PART_ChevronIcon"
+                                            Width="16"
+                                            Height="16"
+                                            VerticalAlignment="Center"
+                                            Data="{StaticResource DownSkeletonGeometry}"
+                                            Fill="{TemplateBinding BorderBrush}"
+                                            Stretch="Uniform" />
+                                    </Grid>
+                                    <Grid
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Margin="0">
+                                        <ToggleButton
+                                            Name="PART_ToggleButton"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Background="Transparent"
+                                            ClickMode="Press"
+                                            Focusable="False"
+                                            Foreground="{TemplateBinding Foreground}"
+                                            IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Style="{StaticResource DefaultComboBoxToggleButtonStyle}" />
+                                    </Grid>
+                                    <TextBox
+                                        x:Name="PART_EditableTextBox"
+                                        Grid.Column="0"
+                                        Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        Background="{TemplateBinding Background}"
+                                        BorderThickness="0"
+                                        FocusVisualStyle="{x:Null}"
+                                        FontSize="{TemplateBinding FontSize}"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        IsReadOnly="{TemplateBinding IsReadOnly}"
+                                        ScrollViewer.PanningMode="VerticalFirst"
+                                        Stylus.IsFlicksEnabled="False"
+                                        Visibility="Collapsed" />
+                                </Grid>
+                                <Popup
+                                    x:Name="PART_Popup"
+                                    MinWidth="{Binding ActualWidth, ElementName=PART_MainBorder}"
+                                    Margin="1"
+                                    AllowsTransparency="true"
+                                    IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Placement="{TemplateBinding Popup.Placement}"
+                                    PopupAnimation="{TemplateBinding Popup.PopupAnimation}">
+                                    <Decorator Margin="8,0">
+                                        <Border
+                                            x:Name="PART_DropDownBorder"
+                                            MinWidth="{Binding ActualWidth, ElementName=PART_MainBorder}"
+                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                            Margin="0"
+                                            Padding="0,3"
+                                            Background="{DynamicResource ThirdlyRegionBrush}"
+                                            BorderBrush="{DynamicResource DarkPrimaryBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="{Binding Path=(leafui:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                            SnapsToDevicePixels="True">
+                                            <Border.RenderTransform>
+                                                <TranslateTransform />
+                                            </Border.RenderTransform>
+                                            <ScrollViewer Margin="2">
+                                                <ItemsPresenter
+                                                    x:Name="PART_ItemsPresenter"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Decorator>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="PART_DropDownBorder"
+                                            Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                            From="-90"
+                                            To="0"
+                                            Duration="00:00:00.167">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Setter TargetName="PART_ChevronIcon" Property="Data" Value="{DynamicResource UpSkeletonGeometry}" />
+                            <Setter TargetName="PART_MainBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="PART_DropDownBorder" Property="Height" Value="35" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsGrouping" Value="true" />
+                                <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true" />
+                                <Condition SourceName="PART_Popup" Property="IsOpen" Value="false" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsEditable" Value="True">
+                            <Setter Property="IsTabStop" Value="False" />
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.4" />
+                        </Trigger>
+                        <Trigger Property="leafui:TitleElement.TitlePlacement" Value="Left">
+                            <Setter TargetName="PART_LeftTitleElement" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="leafui:TitleElement.TitlePlacement" Value="Top">
+                            <Setter TargetName="PART_TopTitleElement" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource ComboBoxBaseStyle}" TargetType="ComboBox" />
+
+</ResourceDictionary>

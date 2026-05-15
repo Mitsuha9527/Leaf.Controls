@@ -1,0 +1,41 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utils="clr-namespace:Leaf.Controls.Utilities">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--  控件样式资源  -->
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/Themes/Converters.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/Resources/GeometryItems/GeometryItems.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/Resources/Icons/SvgImageIcons.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/LeafWindow/LeafWindow.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/TitleBar/TitleBar.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/Border/Border.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/Base/InputElement.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/TextBlock/TextBlock.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/Button/Button.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/Image/ImageViewer.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/ScrollBar/ScrollBar.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/ScrollViewer/ScrollViewer.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/DataGrid/DataGrid.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/LeafToast/LeafToast.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/CheckBox/CheckBox.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/ComboBox/ComboBox.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/ToggleButton/ToggleButton.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/GroupBox/GroupBox.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/ToolTip/ToolTip.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/TextBox/TextBox.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/PasswordBox/PasswordBox.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/NumberBox/NumberBox.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/ProcessBar/ProcessBar.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/Menu/Menu.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/ContextMenu/ContextMenu.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/MenuItem/MenuItem.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/Label/Label.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/DateTimePicker/CalendarBoxItem.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/DateTimePicker/DateTimePicker.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/ToggleLabel/ToggleLabel.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/TabControl/TabControl.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/CustomControls/RadioButtonGroup/RadioButtonGroup.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

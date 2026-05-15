@@ -1,0 +1,244 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Leaf.Controls.Converters"
+    xmlns:leafui="clr-namespace:Leaf.Controls.CustomControls">
+
+    <!--  转换器资源  -->
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+    <!--  Toast 颜色资源  -->
+    <SolidColorBrush x:Key="SuccessBrush" Color="#4CAF50" />
+    <SolidColorBrush x:Key="InfoBrush" Color="#2196F3" />
+    <SolidColorBrush x:Key="WarningBrush" Color="#FF9800" />
+    <SolidColorBrush x:Key="ErrorBrush" Color="#F44336" />
+    <SolidColorBrush x:Key="FatalBrush" Color="#9C27B0" />
+    <SolidColorBrush x:Key="AskBrush" Color="#607D8B" />
+
+    <!--  Toast 图标路径  -->
+    <PathGeometry x:Key="CheckCircleOutlineGeometry">
+        M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M10.5,13L16.5,7L18,8.5L10.5,16L6,11.5L7.5,10L10.5,13Z
+    </PathGeometry>
+
+    <PathGeometry x:Key="InformationOutlineGeometry">
+        M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z
+    </PathGeometry>
+
+    <PathGeometry x:Key="AlertOutlineGeometry">
+        M12,2L13.09,8.26L22,9L17.7,13.18L18.18,22L12,17.77L5.82,22L6.3,13.18L2,9L10.91,8.26L12,2M12,15.4L16.76,18.16L16.18,12.63L20.16,9.1L14.52,8.63L12,3.5L9.48,8.63L3.84,9.1L7.82,12.63L7.24,18.16L12,15.4M8.5,11H15.5V12.5H8.5V11M10,16H14V14.5H10V16Z
+    </PathGeometry>
+
+    <PathGeometry x:Key="CloseCircleOutlineGeometry">
+        M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z
+    </PathGeometry>
+
+    <PathGeometry x:Key="AlertCircleOutlineGeometry">
+        M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z
+    </PathGeometry>
+
+    <PathGeometry x:Key="HelpCircleOutlineGeometry">
+        M11,18H13V16H11V18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6Z
+    </PathGeometry>
+
+    <PathGeometry x:Key="CloseGeometry">
+        M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z
+    </PathGeometry>
+
+    <!--  Toast 按钮样式  -->
+    <Style x:Key="ToastButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="Margin" Value="4,0" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="MinWidth" Value="60" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="4">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value=".9" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value=".6" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Toast 关闭按钮样式  -->
+    <Style x:Key="ToastCloseButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="12">
+                        <Path
+                            Width="12"
+                            Height="12"
+                            Data="{StaticResource CloseGeometry}"
+                            Fill="{TemplateBinding Foreground}"
+                            Stretch="Uniform" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value=".9" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value=".6" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  LeafToast 默认样式  -->
+    <Style x:Key="LeafToastStyle" TargetType="leafui:LeafToast">
+        <Setter Property="MinHeight" Value="60" />
+        <Setter Property="MaxWidth" Value="400" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThirdlyRegionBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect
+                    BlurRadius="8"
+                    Opacity="0.3"
+                    ShadowDepth="2"
+                    Color="Black" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="leafui:LeafToast">
+                    <Grid
+                        x:Name="PART_GridMain"
+                        MinHeight="{TemplateBinding MinHeight}"
+                        Background="{TemplateBinding Background}">
+                        <Border
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="8">
+                            <Grid Margin="16,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  图标  -->
+                                <Path
+                                    x:Name="PART_Icon"
+                                    Grid.Column="0"
+                                    Width="20"
+                                    Height="20"
+                                    Margin="0,0,12,0"
+                                    VerticalAlignment="Top"
+                                    Fill="{TemplateBinding IconBrush}"
+                                    Stretch="Uniform" />
+
+                                <!--  消息内容  -->
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Foreground="{DynamicResource PrimaryTextBrush}"
+                                    Text="{TemplateBinding Message}"
+                                    TextWrapping="Wrap" />
+                                <!--  按钮区域  -->
+                                <StackPanel
+                                    x:Name="PART_ButtonPanel"
+                                    Grid.Column="2"
+                                    Margin="12,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding ShowButtons, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Button
+                                        x:Name="PART_ButtonConfirm"
+                                        Content="{TemplateBinding ConfirmStr}"
+                                        Style="{StaticResource ToastButtonStyle}" />
+                                    <Button
+                                        x:Name="PART_ButtonCancel"
+                                        Content="{TemplateBinding CancelStr}"
+                                        Style="{StaticResource ToastButtonStyle}" />
+                                </StackPanel>
+
+                                <!--  关闭按钮 - 初始设置为Collapsed  -->
+                                <Button
+                                    x:Name="PART_ButtonClose"
+                                    Grid.Column="3"
+                                    Style="{StaticResource ToastCloseButtonStyle}"
+                                    Visibility="Collapsed" />
+                            </Grid>
+                        </Border>
+
+                        <!--  左边框颜色指示器  -->
+                        <Rectangle
+                            x:Name="PART_LeftBorder"
+                            Width="4"
+                            HorizontalAlignment="Left"
+                            Fill="{TemplateBinding IconBrush}"
+                            RadiusX="2"
+                            RadiusY="2" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!--  根据消息类型设置图标  -->
+                        <Trigger Property="Type" Value="Success">
+                            <Setter TargetName="PART_Icon" Property="Data" Value="{StaticResource CheckCircleOutlineGeometry}" />
+                        </Trigger>
+                        <Trigger Property="Type" Value="Info">
+                            <Setter TargetName="PART_Icon" Property="Data" Value="{StaticResource InformationOutlineGeometry}" />
+                        </Trigger>
+                        <Trigger Property="Type" Value="Warning">
+                            <Setter TargetName="PART_Icon" Property="Data" Value="{StaticResource AlertOutlineGeometry}" />
+                        </Trigger>
+                        <Trigger Property="Type" Value="Error">
+                            <Setter TargetName="PART_Icon" Property="Data" Value="{StaticResource CloseCircleOutlineGeometry}" />
+                        </Trigger>
+                        <Trigger Property="Type" Value="Fatal">
+                            <Setter TargetName="PART_Icon" Property="Data" Value="{StaticResource AlertCircleOutlineGeometry}" />
+                        </Trigger>
+                        <Trigger Property="Type" Value="Ask">
+                            <Setter TargetName="PART_Icon" Property="Data" Value="{StaticResource HelpCircleOutlineGeometry}" />
+                        </Trigger>
+
+                        <!--  隐藏图标当Icon为空时  -->
+                        <Trigger Property="Icon" Value="">
+                            <Setter TargetName="PART_Icon" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_Icon" Property="Margin" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  设置默认样式  -->
+    <Style BasedOn="{StaticResource LeafToastStyle}" TargetType="leafui:LeafToast" />
+
+</ResourceDictionary>

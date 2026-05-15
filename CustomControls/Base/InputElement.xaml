@@ -1,0 +1,48 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:leafui="clr-namespace:Leaf.Controls.CustomControls"
+    xmlns:theme="clr-namespace:Leaf.Controls.Themes">
+
+    <Style x:Key="InputElementBaseStyle" TargetType="Control">
+        <Setter Property="leafui:TitleElement.TitleMargin" Value="5,3" />
+        <Setter Property="leafui:TitleElement.Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="leafui:TitleElement.Background" Value="Transparent" />
+        <Setter Property="leafui:TitleElement.VerticalAlignment" Value="Center" />
+        <Setter Property="leafui:TitleElement.HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Padding" Value="{x:Static theme:DefaultSettings.DefaultInputPadding}" />
+        <Setter Property="Margin" Value="{x:Static theme:DefaultSettings.DefaultMargin}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="leafui:BorderElement.CornerRadius" Value="{x:Static theme:DefaultSettings.DefaultCornerRadius}" />
+        <!--  使用自定义的错误模板  -->
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.4" />
+            </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="BorderBrush" Value="{DynamicResource DangerBrush}" />
+                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                <Setter Property="ToolTipService.InitialShowDelay" Value="100" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsFocused" Value="True" />
+                    <Condition Property="Validation.HasError" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

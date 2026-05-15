@@ -1,0 +1,331 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:leafui="clr-namespace:Leaf.Controls.CustomControls"
+    xmlns:utils="clr-namespace:Leaf.Controls.Utilities">
+
+    <ResourceDictionary.MergedDictionaries>
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/Resources/GeometryItems/GeometryItems.xaml" />
+        <utils:SharedResourceDictionary Source="/Leaf.Controls;component/Themes/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style
+        x:Key="MenuItemScrollViewer"
+        BasedOn="{StaticResource {x:Type ScrollViewer}}"
+        TargetType="{x:Type ScrollViewer}">
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <ControlTemplate x:Key="MenuItemTopLevelHeaderTemplateStyle" TargetType="MenuItem">
+        <Border
+            x:Name="PART_TopHearderBorder"
+            Padding="{TemplateBinding Padding}"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding leafui:BorderElement.CornerRadius}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ContentPresenter
+                    x:Name="PART_TopHeaderPresenter"
+                    Grid.Row="0"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="Center"
+                    ContentSource="Header"
+                    RecognizesAccessKey="True"
+                    TextElement.Foreground="{TemplateBinding Foreground}" />
+                <Popup
+                    x:Name="PART_Popup"
+                    Grid.Row="1"
+                    AllowsTransparency="True"
+                    Focusable="False"
+                    HorizontalOffset="0"
+                    IsOpen="{TemplateBinding IsSubmenuOpen}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=PART_TopHearderBorder}"
+                    PopupAnimation="None"
+                    VerticalOffset="0">
+                    <leafui:SimplePanel>
+                        <Border
+                            x:Name="PART_SubmenuBorder"
+                            Padding="0,3"
+                            Background="{DynamicResource SecondaryRegionBrush}"
+                            BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{TemplateBinding leafui:BorderElement.CornerRadius}"
+                            Effect="{DynamicResource ShadowEffect2}">
+                            <Border.RenderTransform>
+                                <TranslateTransform />
+                            </Border.RenderTransform>
+                            <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuItemScrollViewer}">
+                                <ItemsPresenter
+                                    x:Name="PART_ItemsPresenter"
+                                    Margin="{TemplateBinding Padding}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </ScrollViewer>
+                        </Border>
+                    </leafui:SimplePanel>
+                </Popup>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="PART_TopHearderBorder" Property="Background" Value="{DynamicResource DarkOpacityBrush}" />
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="False">
+                <Setter TargetName="PART_TopHearderBorder" Property="BorderBrush" Value="Transparent" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.4" />
+            </Trigger>
+            <Trigger Property="IsSubmenuOpen" Value="True">
+                <Setter TargetName="PART_TopHearderBorder" Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetName="PART_SubmenuBorder"
+                                Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                From="-90"
+                                To="0"
+                                Duration="00:00:00.167">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="MenuItemTopLevelItemTemplateStyle" TargetType="MenuItem">
+        <Border
+            x:Name="PART_TopItemBorder"
+            Padding="{TemplateBinding Padding}"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding leafui:BorderElement.CornerRadius}">
+            <leafui:SimplePanel>
+                <ContentPresenter
+                    x:Name="PART_Presenter"
+                    Grid.Row="0"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="Center"
+                    ContentSource="Header"
+                    RecognizesAccessKey="True"
+                    TextElement.Foreground="{TemplateBinding Foreground}" />
+            </leafui:SimplePanel>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="PART_TopItemBorder" Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.4" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--  带子项目的二级MenuItem  -->
+    <ControlTemplate x:Key="MenuItemSubmenuHeaderTemplateStyle" TargetType="MenuItem">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border
+                x:Name="PART_SubHearderBorder"
+                Padding="{TemplateBinding Padding}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="0"
+                CornerRadius="{TemplateBinding leafui:BorderElement.CornerRadius}">
+                <Grid x:Name="PART_MenuItemContent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter
+                        x:Name="PART_HeaderPresenter"
+                        Grid.Column="0"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="Center"
+                        ContentSource="Header"
+                        RecognizesAccessKey="True"
+                        TextElement.Foreground="{TemplateBinding Foreground}" />
+                    <Path
+                        x:Name="PART_Chevron"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Data="{StaticResource RightGeometry}"
+                        Fill="{TemplateBinding Foreground}"
+                        Stretch="Uniform" />
+                </Grid>
+            </Border>
+            <Popup
+                x:Name="PART_Popup"
+                Grid.Row="1"
+                AllowsTransparency="True"
+                Focusable="False"
+                HorizontalOffset="12"
+                IsOpen="{TemplateBinding IsSubmenuOpen}"
+                Placement="Right"
+                PlacementTarget="{Binding ElementName=PART_MenuItemContent}"
+                PopupAnimation="None"
+                VerticalOffset="0">
+                <leafui:SimplePanel>
+                    <Border
+                        x:Name="PART_SubmenuBorder"
+                        Padding="0,3"
+                        Background="{DynamicResource SecondaryRegionBrush}"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{TemplateBinding leafui:BorderElement.CornerRadius}"
+                        Effect="{DynamicResource ShadowEffect2}">
+                        <Border.RenderTransform>
+                            <TranslateTransform />
+                        </Border.RenderTransform>
+                        <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuItemScrollViewer}">
+                            <ItemsPresenter
+                                x:Name="PART_ItemsPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </ScrollViewer>
+                    </Border>
+                </leafui:SimplePanel>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="PART_SubHearderBorder" Property="Background" Value="{DynamicResource DarkOpacityBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.4" />
+            </Trigger>
+            <Trigger Property="IsSubmenuOpen" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetName="PART_SubmenuBorder"
+                                Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                From="-90"
+                                To="0"
+                                Duration="00:00:00.167">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--  不带子项目的二级MenuItem  -->
+    <ControlTemplate x:Key="MenuItemSubmenuItemTemplateStyle" TargetType="MenuItem">
+        <Border
+            x:Name="PART_SubItemBorder"
+            Padding="{TemplateBinding Padding}"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="0"
+            CornerRadius="{TemplateBinding leafui:BorderElement.CornerRadius}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Path
+                    x:Name="PART_Chevron"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Data="{StaticResource CheckedGeometry}"
+                    Stretch="Fill"
+                    Stroke="Transparent"
+                    StrokeThickness="2"
+                    Visibility="Collapsed" />
+                <leafui:SimplePanel Grid.Column="1">
+                    <ContentPresenter
+                        x:Name="PART_Presenter"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="Center"
+                        ContentSource="Header"
+                        RecognizesAccessKey="True"
+                        TextElement.Foreground="{TemplateBinding Foreground}" />
+                </leafui:SimplePanel>
+                <TextBlock
+                    x:Name="PART_InputGestureText"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Foreground="{TemplateBinding Foreground}"
+                    Text="{TemplateBinding InputGestureText}" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsCheckable" Value="True">
+                <Setter TargetName="PART_Chevron" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="PART_Chevron" Property="Stroke" Value="{DynamicResource PrimaryBrush}" />
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="PART_SubItemBorder" Property="Background" Value="{DynamicResource DarkOpacityBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.4" />
+            </Trigger>
+            <Trigger Property="InputGestureText" Value="{x:Null}">
+                <Setter TargetName="PART_InputGestureText" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="MenuItemBaseStyle" TargetType="MenuItem">
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="Margin" Value="0,3" />
+        <Setter Property="Padding" Value="5,0" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        <Setter Property="leafui:BorderElement.CornerRadius" Value="2" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Style.Triggers>
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Template" Value="{StaticResource MenuItemTopLevelHeaderTemplateStyle}" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="Grid.IsSharedSizeScope" Value="True" />
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter Property="Template" Value="{StaticResource MenuItemTopLevelItemTemplateStyle}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template" Value="{StaticResource MenuItemSubmenuHeaderTemplateStyle}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuItem">
+                <Setter Property="Template" Value="{StaticResource MenuItemSubmenuItemTemplateStyle}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style BasedOn="{StaticResource MenuItemBaseStyle}" TargetType="MenuItem" />
+
+</ResourceDictionary>

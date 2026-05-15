@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+	<LangVersion>preview</LangVersion>
+
+	<!--Nuget包配置-->
+	<NuGetAuditMode>all</NuGetAuditMode>
+	<Company>Mitsuha9527</Company>
+	<Product>$(AssemblyName)</Product>
+	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	<Version>1.0.3</Version>
+	<Description>Leaf.UI</Description>
+	<PackageOutputPath>nupkg</PackageOutputPath>
+	<PackageId>$(AssemblyName)</PackageId>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CustomControls\Brush\**" />
+    <Compile Remove="CustomControls\Expander\**" />
+    <Compile Remove="CustomControls\Pagination\**" />
+    <Compile Remove="CustomControls\RadioButton\**" />
+    <Compile Remove="CustomControls\ShadowEffect\**" />
+    <Compile Remove="CustomControls\TreeView\**" />
+    <EmbeddedResource Remove="CustomControls\Brush\**" />
+    <EmbeddedResource Remove="CustomControls\Expander\**" />
+    <EmbeddedResource Remove="CustomControls\Pagination\**" />
+    <EmbeddedResource Remove="CustomControls\RadioButton\**" />
+    <EmbeddedResource Remove="CustomControls\ShadowEffect\**" />
+    <EmbeddedResource Remove="CustomControls\TreeView\**" />
+    <None Remove="CustomControls\Brush\**" />
+    <None Remove="CustomControls\Expander\**" />
+    <None Remove="CustomControls\Pagination\**" />
+    <None Remove="CustomControls\RadioButton\**" />
+    <None Remove="CustomControls\ShadowEffect\**" />
+    <None Remove="CustomControls\TreeView\**" />
+    <Page Remove="CustomControls\Brush\**" />
+    <Page Remove="CustomControls\Expander\**" />
+    <Page Remove="CustomControls\Pagination\**" />
+    <Page Remove="CustomControls\RadioButton\**" />
+    <Page Remove="CustomControls\ShadowEffect\**" />
+    <Page Remove="CustomControls\TreeView\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Fonts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Leaf.CvCommon" Version="1.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

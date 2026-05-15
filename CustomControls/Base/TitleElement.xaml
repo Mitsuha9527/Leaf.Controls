@@ -1,0 +1,20 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:leafui="clr-namespace:Leaf.Controls.CustomControls">
+
+    <Style x:Key="TitleElementTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="MinWidth" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(leafui:TitleElement.MinWidth)}" />
+        <Setter Property="MinHeight" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(leafui:TitleElement.MinHeight)}" />
+        <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(leafui:TitleElement.TitleMargin)}" />
+        <Setter Property="Padding" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(leafui:TitleElement.Padding)}" />
+        <Setter Property="HorizontalAlignment" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(leafui:TitleElement.HorizontalAlignment)}" />
+        <Setter Property="VerticalAlignment" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(leafui:TitleElement.VerticalAlignment)}" />
+        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(leafui:TitleElement.Background)}" />
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(leafui:TitleElement.Foreground)}" />
+        <Setter Property="Text" Value="{Binding Path=(leafui:TitleElement.Title), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,311 @@
+﻿<UserControl
+    x:Class="Leaf.Controls.UserControls.WrapImageViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cvt="clr-namespace:Leaf.Controls.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:leaf="clr-namespace:Leaf.Controls.CustomControls"
+    xmlns:local="clr-namespace:Leaf.Controls.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <!--  Blink animation for indicator  -->
+        <Storyboard x:Key="BlinkAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation
+                AutoReverse="True"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="0.3"
+                Duration="0:0:1" />
+        </Storyboard>
+
+        <!--  ROI resize thumb style  -->
+        <Style x:Key="ResizeThumbStyle" TargetType="Thumb">
+            <Setter Property="Width" Value="8" />
+            <Setter Property="Height" Value="8" />
+            <Setter Property="Background" Value="LimeGreen" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Rectangle
+                            Fill="{TemplateBinding Background}"
+                            Stroke="{TemplateBinding BorderBrush}"
+                            StrokeThickness="{TemplateBinding BorderThickness}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Focusable="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--  Top toolbar  -->
+        <Border
+            Grid.Row="0"
+            Background="{DynamicResource RegionBrush}"
+            BorderBrush="{DynamicResource BorderBrush}"
+            BorderThickness="0,0,0,1"
+            Visibility="{Binding ShowToolbar, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Margin="3,0" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style BasedOn="{StaticResource ImageToggleButtonStyle}" TargetType="ToggleButton">
+                        <Setter Property="leaf:IconElement.Height" Value="16" />
+                        <Setter Property="leaf:IconElement.Width" Value="16" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Margin" Value="2,0" />
+                        <Setter Property="leaf:BorderElement.CornerRadius" Value="3" />
+                    </Style>
+                    <Style BasedOn="{StaticResource ImageButtonStyle}" TargetType="Button">
+                        <Setter Property="leaf:IconElement.Height" Value="16" />
+                        <Setter Property="leaf:IconElement.Width" Value="16" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Margin" Value="2,0" />
+                        <Setter Property="leaf:BorderElement.CornerRadius" Value="3" />
+                    </Style>
+                </StackPanel.Resources>
+                <ToggleButton
+                    x:Name="ClickModeButton"
+                    leaf:IconElement.DrawingIcon="{StaticResource ClickIcon}"
+                    Click="ClickModeButton_Click"
+                    Content="选中"
+                    ToolTip="选中模式" />
+                <!--  Pan mode button  -->
+                <ToggleButton
+                    x:Name="PanModeButton"
+                    leaf:IconElement.DrawingIcon="{StaticResource HandDragIcon}"
+                    Click="PanModeButton_Click"
+                    Content="拖拽"
+                    ToolTip="图像拖拽模式" />
+                <!--  Draw ROI mode button  -->
+                <ToggleButton
+                    x:Name="DrawROIModeButton"
+                    leaf:IconElement.DrawingIcon="{StaticResource DrawROIIcon}"
+                    Click="DrawROIModeButton_Click"
+                    Content="新建"
+                    ToolTip="绘制ROI模式" />
+                <!--  Edit mode button  -->
+                <ToggleButton
+                    x:Name="EditModeButton"
+                    leaf:IconElement.DrawingIcon="{StaticResource EditROIIcon}"
+                    Click="EditModeButton_Click"
+                    Content="编辑"
+                    ToolTip="编辑ROI模式" />
+                <!--  Delete selected ROI button  -->
+                <Button
+                    x:Name="DeleteSelectedROIButton"
+                    leaf:IconElement.DrawingIcon="{StaticResource DeleteROIIcon}"
+                    Click="DeleteSelectedROIButton_Click"
+                    Content="删除"
+                    IsEnabled="{Binding HasSelectedROI, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}"
+                    ToolTip="删除选中ROI" />
+                <!--  Clear all ROIs button  -->
+                <Button
+                    x:Name="ClearROIsButton"
+                    leaf:IconElement.DrawingIcon="{StaticResource DeleteIcon}"
+                    Click="ClearROIsButton_Click"
+                    Content="清空"
+                    ToolTip="删除所有ROI" />
+                <!--  Fit to view button  -->
+                <Button
+                    x:Name="FitToViewButton"
+                    leaf:IconElement.DrawingIcon="{StaticResource FitWindowIcon}"
+                    Click="FitToViewButton_Click"
+                    Content="复原视窗"
+                    ToolTip="图像适应窗口" />
+                <Button
+                    leaf:IconElement.DrawingIcon="{StaticResource TotalMoveIcon}"
+                    Click="AdjustROIPosition_Click"
+                    Content="位置调整" />
+            </StackPanel>
+        </Border>
+
+        <!--  Main image viewing area  -->
+        <Border
+            x:Name="PART_Border"
+            Grid.Row="1"
+            Background="{Binding Background, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}"
+            BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}"
+            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}"
+            ClipToBounds="True"
+            Focusable="True">
+            <Grid
+                x:Name="PART_Panel"
+                Width="{Binding ImageWidth, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}"
+                Height="{Binding ImageHeight, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}"
+                Margin="{Binding ImageMargin, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <!--  Image display  -->
+                <Image
+                    x:Name="PART_Image"
+                    RenderOptions.BitmapScalingMode="NearestNeighbor"
+                    RenderTransformOrigin="0.5,0.5"
+                    Source="{Binding ImageSource, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}" />
+
+                <!--  ROI rendering layer  -->
+                <ItemsControl ItemsSource="{Binding ROIs, RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding Rect.X}" />
+                            <Setter Property="Canvas.Top" Value="{Binding Rect.Y}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type leaf:ROI}">
+                            <leaf:SimplePanel Width="{Binding Rect.Width}" Height="{Binding Rect.Height}">
+                                <!--  Circular indicator (background layer)  -->
+                                <Ellipse
+                                    x:Name="PART_Indicator"
+                                    Stretch="Fill"
+                                    Visibility="{Binding ShowIndicator, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Ellipse.Style>
+                                        <Style TargetType="Ellipse">
+                                            <!--  Default: Yellow with transparency  -->
+                                            <Setter Property="Fill" Value="Yellow" />
+                                            <Setter Property="Opacity" Value="1.0" />
+                                            <Style.Triggers>
+                                                <!--  Selected state: Blue  -->
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="Fill" Value="Blue" />
+                                                </DataTrigger>
+                                                <!--  OK state: Green  -->
+                                                <DataTrigger Binding="{Binding IsOK}" Value="True">
+                                                    <Setter Property="Fill" Value="Green" />
+                                                </DataTrigger>
+                                                <!--  NG state: Red  -->
+                                                <DataTrigger Binding="{Binding IsOK}" Value="False">
+                                                    <Setter Property="Fill" Value="Red" />
+                                                </DataTrigger>
+                                                <!--  Selected AND Edit state: Green with blink (highest priority, placed first)  -->
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding ShowIndicator}" Value="True" />
+                                                        <Condition Binding="{Binding IsEditing}" Value="True" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.EnterActions>
+                                                        <BeginStoryboard x:Name="GreenBlinkStoryboard" Storyboard="{StaticResource BlinkAnimation}" />
+                                                    </MultiDataTrigger.EnterActions>
+                                                    <MultiDataTrigger.ExitActions>
+                                                        <RemoveStoryboard BeginStoryboardName="GreenBlinkStoryboard" />
+                                                    </MultiDataTrigger.ExitActions>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Ellipse.Style>
+                                </Ellipse>
+
+                                <TextBlock
+                                    x:Name="CodeText"
+                                    Margin="-20"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}, Path=CodeTextFontSize}"
+                                    Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WrapImageViewer}, Path=CodeTextBrush}"
+                                    Text="{Binding Code, Mode=TwoWay}" />
+                                <!--  ROI main rectangle  -->
+                                <Rectangle Visibility="{Binding ShowIndicator, Converter={StaticResource BooleanToVisibilityReConverter}}">
+                                    <Rectangle.Style>
+                                        <Style TargetType="Rectangle">
+                                            <Setter Property="Stroke" Value="Yellow" />
+                                            <Setter Property="StrokeThickness" Value="2" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                    <Setter Property="Stroke" Value="LimeGreen" />
+                                                    <Setter Property="StrokeDashArray" Value="2 2" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsOK}" Value="True">
+                                                    <Setter Property="Stroke" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsOK}" Value="False">
+                                                    <Setter Property="Stroke" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="Stroke" Value="Blue" />
+                                                    <Setter Property="StrokeDashArray" Value="2 2" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+
+                                <!--  Resize handles  -->
+                                <leaf:SimplePanel Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Thumb
+                                        Margin="-4"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        Cursor="SizeNWSE"
+                                        Style="{StaticResource ResizeThumbStyle}"
+                                        Tag="TopLeft" />
+                                    <Thumb
+                                        Margin="-4"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Cursor="SizeNS"
+                                        Style="{StaticResource ResizeThumbStyle}"
+                                        Tag="TopCenter" />
+                                    <Thumb
+                                        Margin="-4"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Cursor="SizeNESW"
+                                        Style="{StaticResource ResizeThumbStyle}"
+                                        Tag="TopRight" />
+                                    <Thumb
+                                        Margin="-4"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Cursor="SizeWE"
+                                        Style="{StaticResource ResizeThumbStyle}"
+                                        Tag="MiddleLeft" />
+                                    <Thumb
+                                        Margin="-4"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Cursor="SizeWE"
+                                        Style="{StaticResource ResizeThumbStyle}"
+                                        Tag="MiddleRight" />
+                                    <Thumb
+                                        Margin="-4"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        Cursor="SizeNESW"
+                                        Style="{StaticResource ResizeThumbStyle}"
+                                        Tag="BottomLeft" />
+                                    <Thumb
+                                        Margin="-4"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        Cursor="SizeNS"
+                                        Style="{StaticResource ResizeThumbStyle}"
+                                        Tag="BottomCenter" />
+                                    <Thumb
+                                        Margin="-4"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Cursor="SizeNWSE"
+                                        Style="{StaticResource ResizeThumbStyle}"
+                                        Tag="BottomRight" />
+                                </leaf:SimplePanel>
+                            </leaf:SimplePanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

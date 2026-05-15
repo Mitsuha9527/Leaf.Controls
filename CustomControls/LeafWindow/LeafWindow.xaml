@@ -1,0 +1,75 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:leafui="clr-namespace:Leaf.Controls.CustomControls">
+
+    <WindowChrome
+        x:Key="DefaultWindowChrome"
+        CaptionHeight="0"
+        GlassFrameThickness="0,0,0,1"
+        ResizeBorderThickness="5"
+        UseAeroCaptionButtons="False" />
+
+    <Style x:Key="DefaultLeafWindow" TargetType="leafui:LeafWindow">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="WindowStyle" Value="SingleBorderWindow" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="Linear" />
+        <Setter Property="IsHitTestVisible" Value="True" />
+        <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource DefaultWindowChrome}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="leafui:LeafWindow">
+                    <Border x:Name="PART_WindowBorder" Padding="{TemplateBinding Padding}">
+                        <leafui:SimplePanel>
+                            <AdornerDecorator>
+                                <ContentPresenter
+                                    x:Name="PART_Container"
+                                    Margin="{TemplateBinding Padding}"
+                                    ContentSource="Content" />
+                            </AdornerDecorator>
+                        </leafui:SimplePanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="NormalWindow"
+        BasedOn="{StaticResource DefaultLeafWindow}"
+        TargetType="leafui:LeafWindow">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="leafui:LeafWindow">
+                    <Border x:Name="PART_WindowBorder" Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <leafui:TitleBar
+                                Grid.Row="0"
+                                leafui:TitleElement.Title="{TemplateBinding Title}"
+                                IsMaximized="{TemplateBinding IsMaximizedOnStartup}" />
+                            <AdornerDecorator Grid.Row="1">
+                                <ContentPresenter
+                                    x:Name="PART_Container"
+                                    Grid.Row="1"
+                                    ContentSource="Content" />
+                            </AdornerDecorator>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource NormalWindow}" TargetType="leafui:LeafWindow" />
+</ResourceDictionary>
