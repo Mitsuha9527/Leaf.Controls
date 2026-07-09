@@ -1,10 +1,10 @@
-﻿using Leaf.Controls.Utilities;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Leaf.Controls.Utilities;
 
 namespace Leaf.Controls.CustomControls
 {
@@ -13,6 +13,7 @@ namespace Leaf.Controls.CustomControls
     {
         private const string ElementTextBox = "PART_TextBox";
         private TextBox _textBox = null!;
+        private bool _isInternalChanged;
 
         public RoutedCommand IncreaseCommand { get; } =
             new RoutedCommand(nameof(IncreaseCommand), typeof(NumberBox));
@@ -98,11 +99,22 @@ namespace Leaf.Controls.CustomControls
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (_isInternalChanged)
+                return;
+
             if (double.TryParse(_textBox.Text, out double value))
             {
                 if (value >= Minimum && value <= Maximum)
                 {
-                    SetCurrentValue(ValueProperty, value);
+                    try
+                    {
+                        _isInternalChanged = true;
+                        SetCurrentValue(ValueProperty, value);
+                    }
+                    finally
+                    {
+                        _isInternalChanged = false;
+                    }
                 }
             }
         }
@@ -145,9 +157,19 @@ namespace Leaf.Controls.CustomControls
 
         private void SetText(bool force = false)
         {
-            if (_textBox != null && (!_textBox.IsFocused || force))
+            if (_textBox is null)
+                return;
+            // 仅在“当前正在由文本同步回 Value”时，避免立即反向覆盖用户输入。
+            // 外部绑定更新、DataContext 切换导致的 Value 变化，仍应正常刷新到界面。
+            if (!force && _isInternalChanged)
+                return;
+            var text = CurrentText;
+            if (_textBox.Text != text)
             {
-                _textBox.Text = CurrentText;
+                _textBox.Text = text;
+            }
+            if (force || !_textBox.IsKeyboardFocused)
+            {
                 _textBox.Select(_textBox.Text.Length, 0);
             }
         }
